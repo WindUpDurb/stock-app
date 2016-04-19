@@ -31,7 +31,6 @@ var operations = {
 
         $("#searchResultsDiv").on("click", "li", function () {
             var stockSymbol = $(this).attr("id").split("-")[0];
-            console.log(stockSymbol)
             var data = operations.stockQuoteLookUp(stockSymbol);
         })
 
@@ -108,7 +107,6 @@ var operations = {
     clickSavedStock : function () {
 
         $("#storedStocks").on("click", "li", function () {
-            console.log(this);
             var stockSymbol = $(this).text().split("-")[0];
             operations.stockQuoteLookUp(stockSymbol);
         });
@@ -116,7 +114,6 @@ var operations = {
 
     deleteSavedStock : function () {
         $("#storedStocks").on("dblclick", "li", function () {
-            console.log("Working");
             $("#removeContactModal").modal("show");
             $("#deleteContactName").text($(this).text());
 
@@ -142,15 +139,8 @@ var operations = {
                 return $li;
             });
             $("#storedStocks").append(toAppend);
-
         });
-
     }
-
-
-
-
-
 };
 
 function initialize () {

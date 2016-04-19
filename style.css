@@ -28,6 +28,13 @@ body {
 
 }
 
+#storedStocksDiv {
+    float: right;
+    margin-top: 20px;
+    width: 50%;
+
+}
+
 
 
 ul {
@@ -36,4 +43,6 @@ ul {
 
 li {
     border: black 1px solid;
+    margin: 2px;
+    background-color: white;
 }
