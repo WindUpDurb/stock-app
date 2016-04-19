@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Shit</title>
+    <script src="http://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="material.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+</head>
+<body>
+
+    <div class="toolbar">
+        <div class="searchDiv">
+        <input class="text-input" id="searchStock" type="text" placeholder="Search Stocks">
+        </div>
+    </div>
+
+    <div id="searchResultsDiv">Results Here
+        <ul id="searchList"></ul>
+    </div>
+
+    <button class="stockSearch">Stock Search</button>
+
+    <div id="additionalStockInfo">
+        <h1><span id="stockName"></span> - <span id="stockSymbol"></span></h1>
+
+        <br>
+        Last Price: <span id="lastPrice"></span>
+
+        <br>
+        Change: <span id="stockChange"></span>
+
+        <br>
+        High: <span id="stockHigh"></span>
+
+        <br>
+        Low: <span id="stockLow"></span>
+
+        Open: <span id="stockOpen"></span>
+    </div>
+
+    <div id="storedStocksDiv">
+        <ul id="storedStocks"></ul>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+body {
+    text-align: center;
+    background-color: #2196F3;
+}
+
+.toolbar {
+    margin-top: 10%;
+    background-color: #FF5722;
+
+}
+
+#searchResultsDiv {
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 5px;
+    float: left;
+    background-color: white;
+    height: auto;
+    width: 20%;
+
+}
+
+#additionalStockInfo {
+    display: inline-block;
+    width: 50%;
+    background-color: white;
+    height: auto;
+
+}
+
+
+
+ul {
+    list-style: none;
+}
+
+li {
+    border: black 1px solid;
+}
