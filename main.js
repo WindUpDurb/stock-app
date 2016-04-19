@@ -2,8 +2,6 @@
 
 var operations = {
 
-
-
     stockSearchClick : function () {
         $(".stockSearch").click(function () {
             $("#searchList").empty();
@@ -22,7 +20,7 @@ var operations = {
 
     dataToLis : function (data) {
             var toAppend = data.map(function (item) {
-                var $li = $("<li>").text(`${item.Name} - ${item.Symbol}`).addClass("searchResult").attr("id", item.Symbol);
+                var $li = $("<li>").text(`${item.Name} - ${item.Symbol}`).addClass("searchResult").attr("id", `${item.Symbol}-${item.Name}`);
                 return $li;
             });
             $("#searchList").append(toAppend);
@@ -32,7 +30,7 @@ var operations = {
     clickSearchResult : function () {
 
         $("#searchResultsDiv").on("click", "li", function () {
-            var stockSymbol = $(this).attr("id");
+            var stockSymbol = $(this).attr("id").split("-")[0];
             console.log(stockSymbol)
             var data = operations.stockQuoteLookUp(stockSymbol);
         })
@@ -41,11 +39,14 @@ var operations = {
 
     saveSearchResult : function () {
         $("#searchResultsDiv").on("dblclick", "li", function () {
-            var symbol = $(this).attr("id");
-            var currentlyStoredSymbols = operations.getStoredStocks();
-            if (currentlyStoredSymbols.includes(symbol) !== true) {
-                currentlyStoredSymbols.push(symbol);
-                operations.writeStocksLocal(currentlyStoredSymbols);
+            var stockName = $(this).attr("id");
+            var currentlyStoredStocks = operations.getStoredStocks();
+            if (currentlyStoredStocks.includes(stockName) !== true) {
+                currentlyStoredStocks.push(stockName);
+                operations.writeStocksLocal(currentlyStoredStocks);
+                $("#storedStocks").empty();
+                operations.renderStoredList();
+
             }
         })
 
@@ -59,7 +60,8 @@ var operations = {
 
     },*/
 
-    stockQuoteLookUp : function (stockSymbol) {
+    stockQuoteLookUp : function (stockName) {
+        var stockSymbol = stockName.split("-")[0];
         $.getJSON(`http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=${stockSymbol}&callback=?`)
             .done(function (data) {
                 operations.populateStockInfo(data);
@@ -93,12 +95,59 @@ var operations = {
     },
 
     renderStoredList : function () {
+        $("#storedStocks").empty();
         var stockSymbolsArray = operations.getStoredStocks();
         var toAppend = stockSymbolsArray.map(function (item) {
-            $.getJSON(`http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=${item}&callback=?`)
+           var $li = $("<li>").text(item);
+            return $li;
+        });
+        $("#storedStocks").append(toAppend);
+
+    },
+
+    clickSavedStock : function () {
+
+        $("#storedStocks").on("click", "li", function () {
+            console.log(this);
+            var stockSymbol = $(this).text().split("-")[0];
+            operations.stockQuoteLookUp(stockSymbol);
+        });
+    },
+
+    deleteSavedStock : function () {
+        $("#storedStocks").on("dblclick", "li", function () {
+            console.log("Working");
+            $("#removeContactModal").modal("show");
+            $("#deleteContactName").text($(this).text());
+
         })
+    },
+
+    confirmDeleteStock : function () {
+        $("#deleteContact").click(function () {
+            var stockName = $("#deleteContactName").text();
+            var stocksInLocal = operations.getStoredStocks();
+            var toUpdate = stocksInLocal.map(function (item) {
+                if (stockName !== item) {
+                    return item;
+                }
+            }).filter(function(item) {
+                return (item);
+            });
+            operations.writeStocksLocal(toUpdate);
+            $("#removeContactModal").modal("hide");
+            $("#storedStocks").empty();
+            var toAppend = toUpdate.map(function (item) {
+                var $li = $("<li>").text(item);
+                return $li;
+            });
+            $("#storedStocks").append(toAppend);
+
+        });
 
     }
+
+
 
 
 
@@ -110,6 +159,9 @@ function initialize () {
     operations.clickSearchResult();
     operations.saveSearchResult();
     operations.renderStoredList();
+    operations.clickSavedStock();
+    operations.deleteSavedStock();
+    operations.confirmDeleteStock();
 
 };
 
